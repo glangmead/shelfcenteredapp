@@ -2,6 +2,85 @@ import Foundation
 import UIKit
 import PlaygroundSupport
 import CoreMotion
+import ObjectiveC
+
+func printViewHierarchy(vc: UIViewController) {
+    printViewHierarchy(vc.view)
+}
+
+func printViewHierarchy(_ view: UIView, indent: String = "") {
+    print("\(indent)\(view)")
+    for subview in view.subviews {
+        printViewHierarchy(subview, indent: indent + "  ")
+    }
+}
+
+extension Date {
+    func timeAgoSinceDate(numericDates:Bool) -> String {
+        let calendar = Calendar.current
+        let now = Date()
+        let earliest = self < now ? self : now
+        let latest =  self > now ? self : now
+        let unitFlags: Set<Calendar.Component> = [.minute, .hour, .day, .weekOfMonth, .month, .year, .second]
+        let components: DateComponents = calendar.dateComponents(unitFlags, from: earliest, to: latest)
+        if let year = components.year {
+            if (year >= 2) {
+                return "\(year) years ago"
+            } else if (year >= 1) {
+                return stringToReturn(flag: numericDates, strings: ("1 year ago", "Last year"))
+            }
+        }
+        if let month = components.month {
+            if (month >= 2) {
+                return "\(month) months ago"
+            } else if (month >= 2) {
+                return stringToReturn(flag: numericDates, strings: ("1 month ago", "Last month"))
+            }
+        }
+        if let weekOfYear = components.weekOfYear {
+            if (weekOfYear >= 2) {
+                return "\(weekOfYear) months ago"
+            } else if (weekOfYear >= 2) {
+                return stringToReturn(flag: numericDates, strings: ("1 week ago", "Last week"))
+            }
+        }
+        if let day = components.day {
+            if (day >= 2) {
+                return "\(day) days ago"
+            } else if (day >= 2) {
+                return stringToReturn(flag: numericDates, strings: ("1 day ago", "Yesterday"))
+            }
+        }
+        if let hour = components.hour {
+            if (hour >= 2) {
+                return "\(hour) hours ago"
+            } else if (hour >= 2) {
+                return stringToReturn(flag: numericDates, strings: ("1 hour ago", "An hour ago"))
+            }
+        }
+        if let minute = components.minute {
+            if (minute >= 2) {
+                return "\(minute) minutes ago"
+            } else if (minute >= 2) {
+                return stringToReturn(flag: numericDates, strings: ("1 minute ago", "A minute ago"))
+            }
+        }
+        if let second = components.second {
+            if (second >= 3) {
+                return "\(second) seconds ago"
+            }
+        }
+        return "Just now"
+    }
+    
+    private func stringToReturn(flag:Bool, strings: (String, String)) -> String {
+        if (flag){
+            return strings.0
+        } else {
+            return strings.1
+        }
+    }
+}
 
 internal class BaseRoundedCardCell: UICollectionViewCell {
     
@@ -130,38 +209,175 @@ internal class BaseRoundedCardCell: UICollectionViewCell {
     
 }
 
+
+typealias Listener<T> = (T) -> Void
+
+class Dynamic<T> {
+    var value: T {
+        didSet {
+            for bondBox in bonds {
+                bondBox.bond?.listener(value)
+            }
+        }
+    }
+    
+    var bonds: [BondBox<T>] = []
+
+    init(_ v: T) {
+        value = v
+    }
+}
+
+class BondBox<T> {
+    weak var bond: Bond<T>?
+    init(_ b: Bond<T>) { bond = b }
+}
+
+class Bond<T> {
+    var listener: Listener<T>
+    
+    init(_ listener: @escaping Listener<T>) {
+        self.listener = listener
+    }
+    
+    func bind(_ dynamic: Dynamic<T>) {
+        dynamic.bonds.append(BondBox(self))
+        listener(dynamic.value)
+    }
+}
+
+private var handle: UInt8 = 0;
+
+extension UILabel {
+    var textBond: Bond<String> {
+        if let b: Any = objc_getAssociatedObject(self, &handle) {
+            return b as! Bond<String>
+        } else {
+            let b = Bond<String>() { [unowned self] v in self.text = v }
+            objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return b
+        }
+    }
+    var nameAndDateBondWithName: (_ name : String) -> Bond<Date> {
+        return { name in
+            if let b: Any = objc_getAssociatedObject(self, &handle) {
+                return b as! Bond<Date>
+            } else {
+                let b = Bond<Date>() { [unowned self] d in self.text = "by \(name), \(d.timeAgoSinceDate(numericDates: true))" }
+                objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return b
+            }
+        }
+    }
+    var nameAndDateBondWithDate: (_ date : Date) -> Bond<String> {
+        return { date in
+            if let b: Any = objc_getAssociatedObject(self, &handle) {
+                return b as! Bond<String>
+            } else {
+                let b = Bond<String>() { [unowned self] name in self.text = "by \(name), \(date.timeAgoSinceDate(numericDates: true))" }
+                objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return b
+            }
+        }
+    }
+    var friendlyDateStringBond: Bond<Date> {
+        if let b: Any = objc_getAssociatedObject(self, &handle) {
+            return b as! Bond<Date>
+        } else {
+            let b = Bond<Date>() { [unowned self] d in self.text = d.timeAgoSinceDate(numericDates: true) }
+            objc_setAssociatedObject(self, &handle, b, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return b
+        }
+    }
+}
+
+extension UIViewController {
+    var titleBond : Bond<String> {
+        return Bond<String>() { [unowned self] newTitle in self.title = newTitle }
+    }
+}
+
+extension UIImageView {
+    var imageBond : Bond<UIImage?> {
+        return Bond<UIImage?>() { [unowned self] newImg in self.image = newImg!}
+    }
+}
+
 let reuseIdentifier = "ItemCell"
 let listCellReuseIdentifier = "ListCell"
+let editItemCellIdentifier = "EditCell"
 
 struct SCListViewModel {
-    let name : String
-    let user: String
+    var name : Dynamic<String> = Dynamic<String>("")
+    var user: Dynamic<String> = Dynamic<String>("")
+    var createdAt: Date = Date()
+    var modifiedAt: Dynamic<Date> = Dynamic<Date>(Date())
+    init(name : String, user : String, createdAt : Date, modifiedAt : Date) {
+        self.name.value = name
+        self.user.value = user
+        self.createdAt = createdAt
+        self.modifiedAt.value = modifiedAt
+    }
+    init() {
+        self.init(name: "", user: "", createdAt: Date(), modifiedAt: Date())
+    }
 }
 
 struct SCItemViewModel {
-    let name: String
-    let image: UIImage?
-    let url: String
-    let createdAt: String
-    let modifiedAt: String
-    let claimed: Bool
-    let editable: Bool
+    var name: Dynamic<String> = Dynamic<String>("")
+    var image: Dynamic<UIImage?> = Dynamic<UIImage?>(nil)
+    var url: Dynamic<String> = Dynamic<String>("")
+    var description: Dynamic<String> = Dynamic<String>("")
+    var comments: [SCCommentViewModel]
+    var createdAt: Date = Date()
+    var modifiedAt: Dynamic<Date> = Dynamic<Date>(Date())
+    var claimed: Dynamic<Bool> = Dynamic<Bool>(false)
+    var editable: Bool = false
+    
+    init(name: String, image: UIImage?, url: String, description: String, comments: [SCCommentViewModel], createdAt: Date, modifiedAt: Date, claimed: Bool, editable: Bool) {
+        self.name.value = name
+        self.image.value = image
+        self.url.value = url
+        self.description.value = description
+        self.comments = comments
+        self.createdAt = createdAt
+        self.modifiedAt.value = modifiedAt
+        self.claimed.value = claimed
+        self.editable = editable
+    }
+    init(name: String, image: UIImage?, url: String, description: String) {
+        self.init(name: name, image: image, url: url, description: description, comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: true)
+    }
 }
 
 struct SCUserViewModel {
-    let name: String
+    var name: Dynamic<String>
 }
 
 struct SCCommentViewModel {
-    let comment: String
-    let createdAt: String
-    let modifiedAt: String
+    var comment: Dynamic<String> = Dynamic<String>("")
+    var user: Dynamic<String> = Dynamic<String>("")
+    var createdAt: Date = Date()
+    var modifiedAt: Dynamic<Date> = Dynamic<Date>(Date())
+    var editable: Bool
+    
+    init(comment: String, user: String, createdAt: Date, modifiedAt: Date, editable: Bool) {
+        self.comment.value = comment
+        self.user.value = user
+        self.createdAt = createdAt
+        self.modifiedAt.value = modifiedAt
+        self.editable = editable
+    }
+    init(comment: String, user: String, editable: Bool) {
+        self.init(comment: comment, user: user, createdAt: Date(), modifiedAt: Date(), editable: true)
+    }
 }
 
 class SCItemCell : BaseRoundedCardCell {
     var imageView : UIImageView
     var title : UILabel
     var url : UILabel
+    var descriptionLabel: UILabel
     var createdAt : UILabel
     var modifiedAt : UILabel
     
@@ -169,15 +385,14 @@ class SCItemCell : BaseRoundedCardCell {
         self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height*2/3))
         self.imageView.contentMode = UIView.ContentMode.scaleAspectFit
         
-        let textInset : CGFloat = 5.0
-        let textWidth = (frame.size.width - 2.0 * textInset)
-        
-        self.title = UILabel(frame: CGRect(x: textInset, y: imageView.frame.size.height, width: textWidth, height: frame.size.height/3))
-        self.title.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
-        self.title.textAlignment = .left
-        self.title.preferredMaxLayoutWidth = textWidth
+        self.title = UILabel()
+        self.title.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         self.title.numberOfLines = 0 // activates multiline
         
+        self.descriptionLabel = UILabel()
+        self.descriptionLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
+        self.descriptionLabel.numberOfLines = 0
+
         self.url = UILabel()
         self.createdAt = UILabel()
         self.modifiedAt = UILabel()
@@ -186,8 +401,14 @@ class SCItemCell : BaseRoundedCardCell {
         super.init(frame: frame)
         
         self.contentView.backgroundColor = UIColor.lightGray
-        contentView.addSubview(self.imageView)
-        contentView.addSubview(self.title)
+        let stackedView = UIStackView(arrangedSubviews: [self.imageView, self.title, self.descriptionLabel, self.url, self.createdAt, self.modifiedAt])
+        
+        stackedView.axis = .vertical
+        stackedView.distribution = .fill
+        stackedView.alignment = .fill
+        stackedView.spacing = 10
+        stackedView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(stackedView)
         
         contentView.layer.cornerRadius = 14
     }
@@ -201,11 +422,12 @@ class SCItemCell : BaseRoundedCardCell {
     }
     
     func updateWithItem(newItem : SCItemViewModel) {
-        imageView.image = newItem.image
-        title.text = newItem.name
-        url.text = newItem.url
-        createdAt.text = newItem.createdAt
-        modifiedAt.text = newItem.modifiedAt
+        imageView.imageBond.bind(newItem.image)
+        title.textBond.bind(newItem.name)
+        descriptionLabel.textBond.bind(newItem.description)
+        url.textBond.bind(newItem.url)
+        createdAt.text = newItem.createdAt.timeAgoSinceDate(numericDates: true)
+        modifiedAt.friendlyDateStringBond.bind(newItem.modifiedAt)
         setNeedsDisplay()
     }
 }
@@ -216,10 +438,11 @@ class SCItemView : UIView {
     let url : UILabel
     let createdAt : UILabel
     let modifiedAt : UILabel
-    let item : SCItemViewModel
-    
-    init(item : SCItemViewModel) {
-        self.item = item
+    let descriptionLabel : UILabel
+    let listItemSource : SCListItemSource
+    let listIndex : Int
+    let itemIndex : Int
+    init(source: SCListItemSource, listIndex: Int, itemIndex: Int) {
         self.imageView = UIImageView()
         self.imageView.contentMode = UIView.ContentMode.scaleAspectFit
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -231,28 +454,234 @@ class SCItemView : UIView {
         self.url = UILabel()
         self.url.translatesAutoresizingMaskIntoConstraints = false
         self.url.lineBreakMode = .byTruncatingTail
+        self.descriptionLabel = UILabel()
+        self.descriptionLabel.numberOfLines = 0
         self.createdAt = UILabel()
         self.createdAt.translatesAutoresizingMaskIntoConstraints = false
         self.modifiedAt = UILabel()
         self.modifiedAt.translatesAutoresizingMaskIntoConstraints = false
+
+        self.listItemSource = source
+        self.listIndex = listIndex
+        self.itemIndex = itemIndex
+        let item = source.item(inList: listIndex, index: itemIndex)
         
-        self.url.text = item.url
-        self.imageView.image = item.image
-        self.itemTitle.text = item.name
-        self.createdAt.text = item.createdAt
-        self.modifiedAt.text = item.modifiedAt
+        self.itemTitle.textBond.bind(item.name)
+        self.url.textBond.bind(item.url)
+        self.createdAt.text = item.createdAt.timeAgoSinceDate(numericDates: true)
+        self.modifiedAt.friendlyDateStringBond.bind(item.modifiedAt)
+        self.imageView.imageBond.bind(item.image)
+        self.descriptionLabel.textBond.bind(item.description)
+
+        super.init(frame: CGRect.zero)
+        
+        let stackedViews : [UIView] = [self.itemTitle, self.imageView, self.url, self.descriptionLabel, self.createdAt, self.modifiedAt]
+
+        let stackView = UIStackView(arrangedSubviews: stackedViews)
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        let stackViewParent = UIView(frame: CGRect.zero)
+        self.addSubview(stackViewParent)
+        stackViewParent.addSubview(stackView)
+
+        self.backgroundColor = UIColor.white
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) not supported")
+    }
+    override func layoutSubviews() {
+        self.frame = (self.superview?.bounds)!
+    }
+}
+
+class SCCommentCell : UITableViewCell {
+    var comment : SCCommentViewModel? = nil {
+        didSet {
+            self.textLabel!.textBond.bind(comment!.comment)
+            // below are two bindings from the comment to the same text label, which means there are two ways it might need to be updated, so that seems snazzy
+            self.detailTextLabel!.nameAndDateBondWithDate(comment!.modifiedAt.value).bind(comment!.user)
+            self.detailTextLabel!.nameAndDateBondWithName(comment!.user.value).bind(comment!.modifiedAt)
+
+        }
+    }
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) not supported")
+    }
+}
+
+class SCCommentsViewController : UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate {
+    let listItemSource : SCListItemSource
+    let listIndex : Int
+    let itemIndex : Int
+    let cellReuseID : String = "CommentCell"
+    let tableView : UITableView
+    init(source: SCListItemSource, listIndex : Int, itemIndex : Int) {
+        self.listItemSource = source
+        self.listIndex = listIndex
+        self.itemIndex = itemIndex
+        self.tableView = UITableView(frame: CGRect.zero, style: .plain)
+        super.init(nibName: nil, bundle: nil)
+        self.view.addSubview(tableView)
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        self.tableView.register(SCCommentCell.self, forCellReuseIdentifier: cellReuseID)
+        self.tableView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let numComments = self.listItemSource.item(inList: listIndex, index: itemIndex).comments.count
+        print("numberOfRowsInSection: \(numComments)")
+        return numComments
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("cellForRowAt")
+        var cell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseID)
+        if (cell == nil) {
+            cell = SCCommentCell(style: .subtitle, reuseIdentifier: listCellReuseIdentifier)
+        }
+        let comment = listItemSource.item(inList: listIndex, index: itemIndex).comments[indexPath.row]
+        (cell as! SCCommentCell).comment = comment
+        return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
+}
+
+class SCItemViewController : UIViewController, UITextViewDelegate {
+    var navCoordinator : SCNavigationCoordinator? = nil
+    let listItemSource : SCListItemSource
+    let listIndex : Int
+    let itemIndex : Int
+    let item : SCItemViewModel
+    let commentsVC : SCCommentsViewController
+    
+    init(source: SCListItemSource, listIndex: Int, itemIndex: Int) {
+        self.listItemSource = source
+        self.listIndex = listIndex
+        self.itemIndex = itemIndex
+        self.item = source.item(inList: listIndex, index: itemIndex)
+        self.commentsVC = SCCommentsViewController(source: source, listIndex: listIndex, itemIndex: itemIndex)
+        super.init(nibName: nil, bundle: nil)
+        self.edgesForExtendedLayout = []
+        self.titleBond.bind(item.name)
+        if (self.item.editable) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
+        }
+    }
+    
+    @objc func editButtonPressed() {
+        navCoordinator?.itemEditing(source: listItemSource, listIndex: listIndex, itemIndex: itemIndex, fromVC: self)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) not supported")
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        printViewHierarchy(vc: self)
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        listItemSource.addItemComment(inList: listIndex, index: itemIndex, comment: SCCommentViewModel(comment: textView.text, user: "???", editable: true))
+    }
+    
+    override func viewDidLoad() {
+        let itemView = SCItemView(source: listItemSource, listIndex: listIndex, itemIndex: itemIndex)
+        let commentsView = commentsVC.view
+        let combinedView = UIStackView(arrangedSubviews: [itemView, commentsView!])
+        combinedView.axis = .vertical
+        combinedView.distribution = .fill
+        combinedView.alignment = .fill
+        combinedView.spacing = 10
+        let scrollView = UIScrollView(frame: CGRect.zero)
+        scrollView.addSubview(combinedView)
+        self.view = scrollView
+//        self.view.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.superview!.leadingAnchor, multiplier: 1.0)
+//        self.view.trailingAnchor.constraint(equalToSystemSpacingAfter: self.view.superview!.trailingAnchor, multiplier: 1.0)
+//        self.view.topAnchor.constraint(equalTo: self.view.superview!.topAnchor)
+//        self.view.bottomAnchor.constraint(equalTo: self.view.superview!.bottomAnchor)
+    }
+}
+
+class SCEditItemView : UIView {
+    let imageView : UIImageView
+    let itemTitleLabel : UILabel
+    let itemTitle : UITextField
+    let url : UITextField
+    let urlLabel : UILabel
+    let descriptionView : UITextView
+    let descriptionLabel : UILabel
+    let item : SCItemViewModel
+    
+    func textFieldIsTitle(field : UITextField) -> Bool {
+        return field == itemTitle
+    }
+    
+    func textFieldIsURL(field : UITextField) -> Bool {
+        return field == url
+    }
+    
+    func textFieldIsDescription(field : UITextField) -> Bool {
+        return field == descriptionView
+    }
+    
+    func setTextDelegates(textFieldDelegate : UITextFieldDelegate, textViewDelegate : UITextViewDelegate) {
+        self.itemTitle.delegate = textFieldDelegate
+        self.url.delegate = textFieldDelegate
+        self.descriptionView.delegate = textViewDelegate
+    }
+    
+    init(item : SCItemViewModel) {
+        self.item = item
+        self.imageView = UIImageView()
+        self.imageView.contentMode = UIView.ContentMode.scaleAspectFit
+        self.imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.itemTitle = UITextField()
+        self.itemTitle.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
+        self.itemTitle.translatesAutoresizingMaskIntoConstraints = false
+        self.url = UITextField()
+        self.url.translatesAutoresizingMaskIntoConstraints = false
+        self.itemTitleLabel = UILabel()
+        self.itemTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.urlLabel = UILabel()
+        self.urlLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.descriptionLabel = UILabel()
+        self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.descriptionView = UITextView()
+        self.descriptionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.url.text = item.url.value
+        self.imageView.imageBond.bind(item.image)
+        self.itemTitle.text = item.name.value
+        self.descriptionView.text = item.description.value
+        self.itemTitleLabel.text = "Title"
+        self.urlLabel.text = "URL"
+        self.descriptionLabel.text = "Comment"
         
         super.init(frame: CGRect.zero)
-
-        self.addSubview(imageView)
-        self.addSubview(itemTitle)
-        self.addSubview(url)
-        self.addSubview(createdAt)
-        self.addSubview(modifiedAt)
-
-        setupConstraints()
+        
+        let stackView = UIStackView(arrangedSubviews: [itemTitleLabel, itemTitle, imageView, urlLabel, url, descriptionLabel, descriptionView])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(stackView)
+        self.backgroundColor = UIColor.white
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not supported")
     }
@@ -260,54 +689,67 @@ class SCItemView : UIView {
     override func layoutSubviews() {
         self.frame = (self.superview?.bounds)!
     }
-    
-    func setupConstraints() {
-        let margins = self.layoutMarginsGuide
-        
-        let textViews = [self.itemTitle, self.url, self.createdAt, self.modifiedAt]
-        for textView in textViews {
-            textView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-            textView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
-        }
-        
-        self.itemTitle.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor).isActive = true
-
-        self.imageView.topAnchor.constraint(equalToSystemSpacingBelow: self.itemTitle.bottomAnchor, multiplier: 1).isActive = true
-        self.imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        self.imageView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        
-        self.url.topAnchor.constraint(equalToSystemSpacingBelow: self.imageView.bottomAnchor, multiplier: 1).isActive = true
-        
-        self.createdAt.topAnchor.constraint(equalToSystemSpacingBelow: self.url.bottomAnchor, multiplier: 1).isActive = true
-        
-        self.modifiedAt.topAnchor.constraint(equalToSystemSpacingBelow: self.createdAt.bottomAnchor, multiplier: 1).isActive = true
-        
-    }
-    
 }
 
-class SCItemViewController : UIViewController {
+class SCEditItemViewController : UIViewController, UITextFieldDelegate, UITextViewDelegate {
+    var navCoordinator : SCNavigationCoordinator? = nil
+    let listItemSource : SCListItemSource
+    let listIndex : Int
+    let itemIndex : Int
     let item : SCItemViewModel
-    
-    init(item : SCItemViewModel) {
-        self.item = item
+    let itemView : SCEditItemView
+
+    init(source: SCListItemSource, listIndex: Int, itemIndex: Int) {
+        self.listItemSource = source
+        self.listIndex = listIndex
+        self.itemIndex = itemIndex
+        self.item = source.item(inList: listIndex, index: itemIndex)
+        self.itemView = SCEditItemView(item: item)
         super.init(nibName: nil, bundle: nil)
         self.edgesForExtendedLayout = []
-        self.title = item.name
+        self.titleBond.bind(item.name)
+        self.itemView.setTextDelegates(textFieldDelegate: self, textViewDelegate: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not supported")
     }
-
     override func loadView() {
-        let theView = SCItemView(item: self.item)
         let scrollView = UIScrollView(frame: CGRect.zero)
-        scrollView.addSubview(theView)
-        scrollView.contentSize = theView.frame.size
-        scrollView.layer.borderColor = UIColor.red.cgColor
-        theView.layer.borderColor = UIColor.blue.cgColor
+        scrollView.addSubview(itemView)
+        scrollView.contentSize = itemView.frame.size
         self.view = scrollView
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        item.description.value = textView.text
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let newText = textField.text {
+            if (itemView.textFieldIsTitle(field: textField)) {
+                item.name.value = newText
+            }
+            if (itemView.textFieldIsURL(field: textField)) {
+                item.url.value = newText
+            }
+        }
+    }
+}
+
+class SCListCell : UITableViewCell {
+    var list : SCListViewModel = SCListViewModel() {
+        didSet {
+            self.textLabel!.textBond.bind(list.name)
+            self.detailTextLabel!.textBond.bind(list.user)
+        }
+    }
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) not supported")
     }
 }
 
@@ -318,9 +760,16 @@ class SCListsViewController : UITableViewController {
     init(listItemSource: SCListItemSource) {
         self.listItemSource = listItemSource
         super.init(style: .plain)
+        if (!self.listItemSource.readOnly()) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        }
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not supported")
+    }
+    @objc func addButtonPressed() {
+        listItemSource.addList(list: SCListViewModel(name: "New List \(listItemSource.numberOfLists() + 1)", user: "Me", createdAt: Date(), modifiedAt: Date()))
+        self.tableView.reloadData()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -331,21 +780,35 @@ class SCListsViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = self.tableView.dequeueReusableCell(withIdentifier: listCellReuseIdentifier)
         if (cell == nil) {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: listCellReuseIdentifier)
+            cell = SCListCell(style: .subtitle, reuseIdentifier: listCellReuseIdentifier)
         }
         let list = listItemSource.list(index: indexPath.row)
-        cell!.textLabel!.text = list.name
-        cell!.detailTextLabel!.text = list.user
-        cell!.accessoryType = .disclosureIndicator
+        (cell as! SCListCell).list = list
         return cell!
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navCoordinator!.listSelected(source: self.listItemSource, listIndex: indexPath.row, fromVC: self)
     }
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return !listItemSource.readOnly()
+    }
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            self.listItemSource.deleteList(index: indexPath.row)
+            tableView.reloadData()
+            }
+        return [deleteAction]
+    }
 }
 
 class SCListViewController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
     let listItemSource : SCListItemSource
     let listIndex : Int
     let navCoordinator : SCNavigationCoordinator
@@ -355,7 +818,10 @@ class SCListViewController : UICollectionViewController, UICollectionViewDelegat
         self.listIndex = listIndex
         self.navCoordinator = navCoordinator
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.title = listItemSource.list(index: listIndex).name
+        self.titleBond.bind(listItemSource.list(index: listIndex).name)
+        if (!self.listItemSource.readOnly()) {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -368,7 +834,13 @@ class SCListViewController : UICollectionViewController, UICollectionViewDelegat
         collectionView.backgroundColor = UIColor.white
         collectionView.contentInset = UIEdgeInsets(top: 40, left: 40, bottom: 40, right: 40)
     }
-    
+
+    @objc func addButtonPressed() {
+        listItemSource.addItem(inList: self.listIndex, item: SCItemViewModel(name: "Item \(self.listItemSource.numberOfItems(inList: self.listIndex) + 1)", image: nil, url: "", description: ""))
+        self.listItemSource.sortByModifiedLatestFirst()
+        self.collectionView.reloadData()
+    }
+
     // MARK: - UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -419,10 +891,15 @@ class SCNewListViewController : UIViewController {
 struct SCNavigationCoordinator {
     let navC : UINavigationController
     func itemSelected(source: SCListItemSource, listIndex: Int, itemIndex: Int, fromVC: UIViewController) {
-        navC.pushViewController(SCItemViewController(item: source.item(inList: listIndex, index: itemIndex)), animated: true)
+        let itemVC = SCItemViewController(source: source, listIndex: listIndex, itemIndex: itemIndex)
+        itemVC.navCoordinator = self
+        navC.pushViewController(itemVC, animated: true)
     }
     func listSelected(source: SCListItemSource, listIndex: Int, fromVC: UIViewController) {
         navC.pushViewController(SCListViewController(listItemSource: source, listIndex: listIndex, navCoordinator: self), animated: true)
+    }
+    func itemEditing(source: SCListItemSource, listIndex: Int, itemIndex: Int, fromVC: UIViewController) {
+        navC.pushViewController(SCEditItemViewController(source: source, listIndex: listIndex, itemIndex: itemIndex), animated: true)
     }
 }
 
@@ -464,6 +941,8 @@ class SCMainViewController : UITabBarController {
 }
 
 protocol SCListItemSource {
+    func userIsMe(user: String) -> Bool
+    func readOnly() -> Bool
     // create
     func addList(list: SCListViewModel)
     func addItem(inList: Int, item: SCItemViewModel)
@@ -475,17 +954,39 @@ protocol SCListItemSource {
     // update
     func updateList(index: Int, newData: SCListViewModel)
     func updateItem(inList: Int, index: Int, newData: SCItemViewModel)
+    func deleteItemComment(inList: Int, index: Int, commentIndex: Int)
+    func addItemComment(inList: Int, index: Int, comment: SCCommentViewModel)
     // delete
     func deleteList(index: Int)
     func deleteItem(inList: Int, index: Int)
+    // sort
+    func sortByModifiedLatestFirst()
 }
 
-class ArrayListItemSource : SCListItemSource {
+class ArrayListItemSource : SCListItemSource, CustomStringConvertible {
+    func userIsMe(user: String) -> Bool {
+        return user == "Greg"
+    }
     var lists : [SCListViewModel]
     var listItems : [[SCItemViewModel]]
-    init(lists: [SCListViewModel], listItems: [[SCItemViewModel]]) {
+    let isReadOnly : Bool
+    init(lists: [SCListViewModel], listItems: [[SCItemViewModel]], readOnly: Bool) {
         self.lists = lists
         self.listItems = listItems
+        self.isReadOnly = readOnly
+    }
+    public var description: String {
+        var result : String = ""
+        for (listIndex, list) in lists.enumerated() {
+            result += "list: \(list.name) (\(list.user))\n"
+            for item in listItems[listIndex] {
+                result += "  \(item.name)\n"
+            }
+        }
+        return result
+    }
+    func readOnly() -> Bool {
+        return self.isReadOnly
     }
     // create
     func addList(list: SCListViewModel) {
@@ -515,6 +1016,12 @@ class ArrayListItemSource : SCListItemSource {
     func updateItem(inList: Int, index: Int, newData: SCItemViewModel) {
         self.listItems[inList][index] = newData
     }
+    func deleteItemComment(inList: Int, index: Int, commentIndex: Int) {
+        listItems[inList][index].comments.remove(at: commentIndex)
+    }
+    func addItemComment(inList: Int, index: Int, comment: SCCommentViewModel) {
+        listItems[inList][index].comments.append(comment)
+    }
     // delete
     func deleteList(index: Int) {
         self.lists.remove(at: index)
@@ -522,30 +1029,50 @@ class ArrayListItemSource : SCListItemSource {
     func deleteItem(inList: Int, index: Int) {
         self.listItems[inList].remove(at: index)
     }
+    // sort
+    func sortByModifiedLatestFirst() {
+        for var list in listItems {
+            list.sort(by: {$0.modifiedAt.value < $1.modifiedAt.value})
+        }
+    }
 }
 
-let suckerPunchItem = SCItemViewModel(name: "Sucker Punch, an item I've always wanted but never bought", image: UIImage(named: "suckerPunch.jpg"), url: "https://smile.amazon.com/Sucker-Gimmicks-Online-Instructions-Southworth/dp/B01N4GYHMQ/ref=sr_1_10?ie=UTF8&qid=1518628995&sr=8-10&keywords=sucker+punch", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
-let redFamineItem = SCItemViewModel(name: "Red Famine book", image: UIImage(named:"redFamineBook.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
-let bpItem = SCItemViewModel(name: "Black Panther", image: UIImage(named:"blackPantherBook.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
-let deskItem = SCItemViewModel(name: "Tummy desk", image: UIImage(named:"tummyDesk.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
+let suckerPunchItem = SCItemViewModel(name: "Sucker Punch, an item I've always wanted but never bought", image: UIImage(named: "suckerPunch.jpg"), url: "https://smile.amazon.com/Sucker-Gimmicks-Online-Instructions-Southworth/dp/B01N4GYHMQ/ref=sr_1_10?ie=UTF8&qid=1518628995&sr=8-10&keywords=sucker+punch", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
+let redFamineItem = SCItemViewModel(name: "Red Famine book", image: UIImage(named:"redFamineBook.jpg"), url: "", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
+let bpItem = SCItemViewModel(name: "Black Panther", image: UIImage(named:"blackPantherBook.jpg"), url: "", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
+let deskItem = SCItemViewModel(name: "Tummy desk", image: UIImage(named:"tummyDesk.jpg"), url: "", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
 
-let laboItem = SCItemViewModel(name: "Labo", image: UIImage(named:"labo.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
-let iceItem = SCItemViewModel(name: "Ice maker", image: UIImage(named:"ice.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
-let penItem = SCItemViewModel(name: "Pen", image: UIImage(named:"pen.jpg"), url: "", createdAt: "today", modifiedAt: "today", claimed: false, editable: true)
+var laboItem = SCItemViewModel(name: "Labo", image: UIImage(named:"labo.jpg"), url: "", description: "Totes dig this.")
+var laboComments = [
+    SCCommentViewModel(comment: "The Labo looks neat, I wonder if anyone will really play with it or if it'll just sit there unused.", user: "Judgment", editable: true),
+        SCCommentViewModel(comment: "Me too. I wonder that.", user: "Greg", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk2", editable: true),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk3", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk4", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk5", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk6", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk7", editable: false),
+    SCCommentViewModel(comment: "Me too. I wonder that.", user: "Jerk8", editable: false)
+    ]
+laboItem.comments = laboComments
+let iceItem = SCItemViewModel(name: "Ice maker", image: UIImage(named:"ice.jpg"), url: "", description: "")
+let penItem = SCItemViewModel(name: "Pen", image: UIImage(named:"pen.jpg"), url: "", description: "")
 
 
 func getTestSharedItemSource() -> SCListItemSource {
     let shelfItemSource = ArrayListItemSource(
-        lists: [SCListViewModel(name: "Birthday 2018", user: "Mom"), SCListViewModel(name: "Christmas 2017", user: "Mom")],
-        listItems: [[suckerPunchItem, redFamineItem], [bpItem, deskItem]]
+        lists: [SCListViewModel(name: "Birthday 2018", user: "Mom", createdAt: Date(), modifiedAt: Date()), SCListViewModel(name: "Christmas 2017", user: "Mom", createdAt: Date(), modifiedAt: Date())],
+        listItems: [[suckerPunchItem, redFamineItem], [bpItem, deskItem]],
+        readOnly: true
     )
     return shelfItemSource
 }
 
 func getTestMyItemSource() -> SCListItemSource {
     let shelfItemSource = ArrayListItemSource(
-        lists: [SCListViewModel(name: "My Birthday 2018", user: "Me"), SCListViewModel(name: "My Christmas 2017", user: "Me")],
-        listItems: [[laboItem, iceItem], [penItem]]
+        lists: [SCListViewModel(name: "My Birthday 2018", user: "Me", createdAt: Date(), modifiedAt: Date()), SCListViewModel(name: "My Christmas 2017", user: "Me", createdAt: Date(), modifiedAt: Date())],
+        listItems: [[laboItem, iceItem], [penItem]],
+        readOnly: false
     )
     return shelfItemSource
 }
@@ -553,4 +1080,12 @@ func getTestMyItemSource() -> SCListItemSource {
 let vc = SCMainViewController(myDataSource: getTestMyItemSource(), sharedDataSource: getTestSharedItemSource())
 PlaygroundPage.current.liveView = vc
 
+// UIApplication.shared.open(url, options: [:], completionHandler: nil)
 
+//let slp = SwiftLinkPreview(session: URLSession.shared,
+//                           workQueue: SwiftLinkPreview.defaultWorkQueue,
+//                           responseQueue: DispatchQueue.main,
+//                           cache: DisabledCache.instance)
+//slp.preview("https://smile.amazon.com/ToiletTree-Professional-Resistant-Trimmer-Silver/dp/B00E4PMQAO/",
+//            onSuccess: { result in print("\(result)") },
+//            onError: { error in print("\(error)")})

@@ -378,7 +378,6 @@ class SCItemCell : BaseRoundedCardCell {
     var title : UILabel
     var url : UILabel
     var descriptionLabel: UILabel
-    var createdAt : UILabel
     var modifiedAt : UILabel
     
     override init(frame: CGRect) {
@@ -388,20 +387,22 @@ class SCItemCell : BaseRoundedCardCell {
         self.title = UILabel()
         self.title.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.semibold)
         self.title.numberOfLines = 0 // activates multiline
+        self.title.translatesAutoresizingMaskIntoConstraints = false
         
         self.descriptionLabel = UILabel()
         self.descriptionLabel.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.regular)
-        self.descriptionLabel.numberOfLines = 0
+        self.descriptionLabel.numberOfLines = 5
+        self.descriptionLabel.lineBreakMode = .byWordWrapping
+        self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         self.url = UILabel()
-        self.createdAt = UILabel()
         self.modifiedAt = UILabel()
         
 
         super.init(frame: frame)
         
         self.contentView.backgroundColor = UIColor.lightGray
-        let stackedView = UIStackView(arrangedSubviews: [self.imageView, self.title, self.descriptionLabel, self.url, self.createdAt, self.modifiedAt])
+        let stackedView = UIStackView(arrangedSubviews: [self.imageView, self.title, self.descriptionLabel, self.url, self.modifiedAt])
         
         stackedView.axis = .vertical
         stackedView.distribution = .fill
@@ -409,7 +410,8 @@ class SCItemCell : BaseRoundedCardCell {
         stackedView.spacing = 10
         stackedView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackedView)
-        
+        stackedView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1.0).isActive = true
+
         contentView.layer.cornerRadius = 14
     }
     
@@ -417,22 +419,17 @@ class SCItemCell : BaseRoundedCardCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     func updateWithItem(newItem : SCItemViewModel) {
         imageView.imageBond.bind(newItem.image)
         title.textBond.bind(newItem.name)
         descriptionLabel.textBond.bind(newItem.description)
         url.textBond.bind(newItem.url)
-        createdAt.text = newItem.createdAt.timeAgoSinceDate(numericDates: true)
         modifiedAt.friendlyDateStringBond.bind(newItem.modifiedAt)
         setNeedsDisplay()
     }
 }
 
-class SCItemView : UIView {
+class SCItemView : UIStackView {
     let imageView : UIImageView
     let itemTitle : UILabel
     let url : UILabel
@@ -473,27 +470,26 @@ class SCItemView : UIView {
         self.imageView.imageBond.bind(item.image)
         self.descriptionLabel.textBond.bind(item.description)
 
-        super.init(frame: CGRect.zero)
-        
         let stackedViews : [UIView] = [self.itemTitle, self.imageView, self.url, self.descriptionLabel, self.createdAt, self.modifiedAt]
-
-        let stackView = UIStackView(arrangedSubviews: stackedViews)
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
-        stackView.spacing = 10
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        let stackViewParent = UIView(frame: CGRect.zero)
-        self.addSubview(stackViewParent)
-        stackViewParent.addSubview(stackView)
+        
+        super.init(frame: CGRect.zero)
+        for view in stackedViews {
+            self.addArrangedSubview(view)
+        }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.axis = .vertical
+        self.distribution = .fill
+        self.alignment = .fill
+        self.spacing = 10
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 20.0).isActive = true
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 20.0).isActive = true
 
         self.backgroundColor = UIColor.white
     }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) not supported")
-    }
-    override func layoutSubviews() {
-        self.frame = (self.superview?.bounds)!
+    required init(coder: NSCoder) {
+        fatalError()
     }
 }
 
@@ -503,13 +499,14 @@ class SCCommentCell : UITableViewCell {
             self.textLabel!.textBond.bind(comment!.comment)
             // below are two bindings from the comment to the same text label, which means there are two ways it might need to be updated, so that seems snazzy
             self.detailTextLabel!.nameAndDateBondWithDate(comment!.modifiedAt.value).bind(comment!.user)
-            self.detailTextLabel!.nameAndDateBondWithName(comment!.user.value).bind(comment!.modifiedAt)
-
+        self.detailTextLabel!.nameAndDateBondWithName(comment!.user.value).bind(comment!.modifiedAt)
         }
     }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.accessoryType = .disclosureIndicator
+        self.textLabel!.numberOfLines = 0
+        self.textLabel!.lineBreakMode = .byWordWrapping
+//        self.detailTextLabel!.numberOfLines = 1
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not supported")
@@ -522,42 +519,73 @@ class SCCommentsViewController : UIViewController, UITableViewDataSource, UITabl
     let itemIndex : Int
     let cellReuseID : String = "CommentCell"
     let tableView : UITableView
+    let newCommentView : UITextView
+    let newCommentHint = "Type your comment"
     init(source: SCListItemSource, listIndex : Int, itemIndex : Int) {
         self.listItemSource = source
         self.listIndex = listIndex
         self.itemIndex = itemIndex
         self.tableView = UITableView(frame: CGRect.zero, style: .plain)
+        self.newCommentView = UITextView(frame: CGRect.zero)
+        self.newCommentView.text = newCommentHint
         super.init(nibName: nil, bundle: nil)
-        self.view.addSubview(tableView)
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.tableView.register(SCCommentCell.self, forCellReuseIdentifier: cellReuseID)
+        self.newCommentView.delegate = self
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.cellReuseID)
         self.tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.newCommentView.translatesAutoresizingMaskIntoConstraints = false
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
+    override func loadView() {
+        let stack = UIStackView(arrangedSubviews: [self.tableView, self.newCommentView])
+        stack.axis = .vertical
+        stack.distribution = .fill
+        stack.alignment = .fill
+        stack.spacing = 10
+        self.view = stack
+        let numComments = self.listItemSource.item(inList: self.listIndex, index: self.itemIndex).comments.count
+        self.tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: (40 * CGFloat(numComments))).isActive = true
+        self.newCommentView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.0).isActive = true
+        self.newCommentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+    }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == newCommentHint {
+            textView.text = ""
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.listItemSource.addItemComment(inList: self.listIndex, index: self.itemIndex, comment: SCCommentViewModel(comment: textView.text, user: "???", editable: true))
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let numComments = self.listItemSource.item(inList: listIndex, index: itemIndex).comments.count
-        print("numberOfRowsInSection: \(numComments)")
         return numComments
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("cellForRowAt")
-        var cell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseID)
-        if (cell == nil) {
-            cell = SCCommentCell(style: .subtitle, reuseIdentifier: listCellReuseIdentifier)
+        var cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellReuseID)
+        if cell == nil {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: self.cellReuseID)
         }
         let comment = listItemSource.item(inList: listIndex, index: itemIndex).comments[indexPath.row]
-        (cell as! SCCommentCell).comment = comment
+        cell!.textLabel?.textBond.bind(comment.comment)
+        cell!.textLabel?.numberOfLines = 0
+        cell!.detailTextLabel?.text = "This is the way the subtitle trots."
+//    cell!.detailTextLabel!.nameAndDateBondWithDate(comment.modifiedAt.value).bind(comment.user)
+//    cell!.detailTextLabel!.nameAndDateBondWithName(comment.user.value).bind(comment.modifiedAt)
+        
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 0
+        return 60
     }
 }
 
@@ -568,16 +596,34 @@ class SCItemViewController : UIViewController, UITextViewDelegate {
     let itemIndex : Int
     let item : SCItemViewModel
     let commentsVC : SCCommentsViewController
+    let scrollView : UIScrollView
+    let stackView : UIStackView
+    let itemView : SCItemView
     
     init(source: SCListItemSource, listIndex: Int, itemIndex: Int) {
         self.listItemSource = source
         self.listIndex = listIndex
         self.itemIndex = itemIndex
         self.item = source.item(inList: listIndex, index: itemIndex)
+
+        self.scrollView = UIScrollView(frame: CGRect.zero)
+
         self.commentsVC = SCCommentsViewController(source: source, listIndex: listIndex, itemIndex: itemIndex)
+        self.itemView = SCItemView(source: listItemSource, listIndex: listIndex, itemIndex: itemIndex)
+
+        self.stackView = UIStackView(arrangedSubviews: [self.itemView, self.commentsVC.view!])
+
+        self.stackView.axis = .vertical
+        self.stackView.distribution = .fill
+        self.stackView.alignment = .fill
+        self.stackView.spacing = 10
+        self.scrollView.addSubview(self.stackView)
         super.init(nibName: nil, bundle: nil)
-        self.edgesForExtendedLayout = []
         self.titleBond.bind(item.name)
+        
+        self.itemView.translatesAutoresizingMaskIntoConstraints = false
+        self.stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         if (self.item.editable) {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed))
         }
@@ -590,28 +636,25 @@ class SCItemViewController : UIViewController, UITextViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not supported")
     }
-    override func viewDidAppear(_ animated: Bool) {
-        printViewHierarchy(vc: self)
-    }
     func textViewDidEndEditing(_ textView: UITextView) {
         listItemSource.addItemComment(inList: listIndex, index: itemIndex, comment: SCCommentViewModel(comment: textView.text, user: "???", editable: true))
     }
+
+    override func viewWillLayoutSubviews() {
+        for view in [self.stackView] {
+            view.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 1.0).isActive = true
+        }
+        for view in [self.itemView, self.commentsVC.view] {
+            view?.widthAnchor.constraint(equalTo: self.stackView.widthAnchor, multiplier: 1.0).isActive = true
+        }
+    }
+    override func viewDidLayoutSubviews() {
+        self.scrollView.contentSize = CGSize(width: self.scrollView.frame.width, height: self.stackView.frame.size.height)
+    }
     
-    override func viewDidLoad() {
-        let itemView = SCItemView(source: listItemSource, listIndex: listIndex, itemIndex: itemIndex)
-        let commentsView = commentsVC.view
-        let combinedView = UIStackView(arrangedSubviews: [itemView, commentsView!])
-        combinedView.axis = .vertical
-        combinedView.distribution = .fill
-        combinedView.alignment = .fill
-        combinedView.spacing = 10
-        let scrollView = UIScrollView(frame: CGRect.zero)
-        scrollView.addSubview(combinedView)
+    override func loadView() {
         self.view = scrollView
-//        self.view.leadingAnchor.constraint(equalToSystemSpacingAfter: self.view.superview!.leadingAnchor, multiplier: 1.0)
-//        self.view.trailingAnchor.constraint(equalToSystemSpacingAfter: self.view.superview!.trailingAnchor, multiplier: 1.0)
-//        self.view.topAnchor.constraint(equalTo: self.view.superview!.topAnchor)
-//        self.view.bottomAnchor.constraint(equalTo: self.view.superview!.bottomAnchor)
+        self.view.backgroundColor = UIColor.white
     }
 }
 
@@ -834,7 +877,6 @@ class SCListViewController : UICollectionViewController, UICollectionViewDelegat
         collectionView.backgroundColor = UIColor.white
         collectionView.contentInset = UIEdgeInsets(top: 40, left: 40, bottom: 40, right: 40)
     }
-
     @objc func addButtonPressed() {
         listItemSource.addItem(inList: self.listIndex, item: SCItemViewModel(name: "Item \(self.listItemSource.numberOfItems(inList: self.listIndex) + 1)", image: nil, url: "", description: ""))
         self.listItemSource.sortByModifiedLatestFirst()
@@ -1042,7 +1084,7 @@ let redFamineItem = SCItemViewModel(name: "Red Famine book", image: UIImage(name
 let bpItem = SCItemViewModel(name: "Black Panther", image: UIImage(named:"blackPantherBook.jpg"), url: "", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
 let deskItem = SCItemViewModel(name: "Tummy desk", image: UIImage(named:"tummyDesk.jpg"), url: "", description: "", comments: [], createdAt: Date(), modifiedAt: Date(), claimed: false, editable: false)
 
-var laboItem = SCItemViewModel(name: "Labo", image: UIImage(named:"labo.jpg"), url: "", description: "Totes dig this.")
+var laboItem = SCItemViewModel(name: "Labo", image: UIImage(named:"labo.jpg"), url: "", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit vitae velit sed mollis. Pellentesque sodales consequat urna quis fermentum. Donec arcu urna, suscipit quis fringilla a, venenatis non lectus. Phasellus tristique nulla id sollicitudin auctor. Nunc tincidunt felis sed rutrum fermentum. Sed ullamcorper tincidunt nunc, eu pretium mauris ultricies blandit. Donec faucibus commodo leo, viverra auctor lacus egestas a.")
 var laboComments = [
     SCCommentViewModel(comment: "The Labo looks neat, I wonder if anyone will really play with it or if it'll just sit there unused.", user: "Judgment", editable: true),
         SCCommentViewModel(comment: "Me too. I wonder that.", user: "Greg", editable: false),

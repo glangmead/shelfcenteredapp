@@ -8,49 +8,95 @@
 
 /* Begin PBXBuildFile section */
 		9B225FE621580500009055D6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE021580500009055D6 /* Regex.swift */; };
-		9B225FE721580500009055D6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE021580500009055D6 /* Regex.swift */; };
-		9B225FE821580500009055D6 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE021580500009055D6 /* Regex.swift */; };
 		9B225FE921580500009055D6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE121580500009055D6 /* PreviewError.swift */; };
-		9B225FEA21580500009055D6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE121580500009055D6 /* PreviewError.swift */; };
-		9B225FEB21580500009055D6 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE121580500009055D6 /* PreviewError.swift */; };
 		9B225FEC21580500009055D6 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE221580500009055D6 /* SwiftLinkPreview.swift */; };
-		9B225FED21580500009055D6 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE221580500009055D6 /* SwiftLinkPreview.swift */; };
-		9B225FEE21580500009055D6 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE221580500009055D6 /* SwiftLinkPreview.swift */; };
 		9B225FEF21580500009055D6 /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE321580500009055D6 /* NSURLSessionExtension.swift */; };
-		9B225FF021580500009055D6 /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE321580500009055D6 /* NSURLSessionExtension.swift */; };
-		9B225FF121580500009055D6 /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE321580500009055D6 /* NSURLSessionExtension.swift */; };
 		9B225FF221580500009055D6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE421580500009055D6 /* StringExtension.swift */; };
-		9B225FF321580500009055D6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE421580500009055D6 /* StringExtension.swift */; };
-		9B225FF421580500009055D6 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE421580500009055D6 /* StringExtension.swift */; };
 		9B225FF521580500009055D6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE521580500009055D6 /* Cache.swift */; };
-		9B225FF621580500009055D6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE521580500009055D6 /* Cache.swift */; };
-		9B225FF721580500009055D6 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B225FE521580500009055D6 /* Cache.swift */; };
 		9BB8BBD121396C0F00F5D83A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB8BBD021396C0F00F5D83A /* AppDelegate.swift */; };
-		9BB8BBD421396C0F00F5D83A /* ShelfCentered.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9BB8BBD221396C0F00F5D83A /* ShelfCentered.xcdatamodeld */; };
 		9BB8BBDD21396C1200F5D83A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BB8BBDC21396C1200F5D83A /* Assets.xcassets */; };
-		9BB8BBEB21396C1200F5D83A /* ShelfCenteredTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB8BBEA21396C1200F5D83A /* ShelfCenteredTests.swift */; };
-		9BB8BBF621396C1200F5D83A /* ShelfCenteredUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB8BBF521396C1200F5D83A /* ShelfCenteredUITests.swift */; };
 		9BB8BC0621396C6600F5D83A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BB8BC0521396C6600F5D83A /* CloudKit.framework */; };
+		9BF0C259216952DD00047634 /* SCCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9BF0C249216952DD00047634 /* SCCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9BF0C25C216952DD00047634 /* SCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF0C247216952DD00047634 /* SCCore.framework */; };
+		9BF0C25D216952DD00047634 /* SCCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF0C247216952DD00047634 /* SCCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9BF0C2652169530800047634 /* SCCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C22C2169253400047634 /* SCCommentsViewController.swift */; };
+		9BF0C2662169530800047634 /* SCViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2242169005F00047634 /* SCViewModels.swift */; };
+		9BF0C2672169530800047634 /* SCEditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2302169256600047634 /* SCEditItemView.swift */; };
+		9BF0C2682169530800047634 /* SCCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C22A2169251700047634 /* SCCommentCell.swift */; };
+		9BF0C2692169530800047634 /* SCEditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2322169257F00047634 /* SCEditItemViewController.swift */; };
+		9BF0C26A2169530800047634 /* SCItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C226216924D000047634 /* SCItemCell.swift */; };
+		9BF0C26B2169530800047634 /* SCListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C238216925C700047634 /* SCListViewController.swift */; };
+		9BF0C26C2169530800047634 /* SCListItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C23E21694FF500047634 /* SCListItemSource.swift */; };
+		9BF0C26D2169530800047634 /* SCListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C236216925AC00047634 /* SCListsViewController.swift */; };
+		9BF0C26E2169530800047634 /* SCItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C22E2169254B00047634 /* SCItemViewController.swift */; };
+		9BF0C26F2169530800047634 /* SCListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2342169259400047634 /* SCListCell.swift */; };
+		9BF0C2702169530800047634 /* ArrayListItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2402169502300047634 /* ArrayListItemSource.swift */; };
+		9BF0C2712169530800047634 /* BindUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2222168FF9300047634 /* BindUtils.swift */; };
+		9BF0C2722169530800047634 /* BaseRoundedCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2202168FF3B00047634 /* BaseRoundedCardCell.swift */; };
+		9BF0C2732169530800047634 /* SCMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C23C21694FCE00047634 /* SCMainViewController.swift */; };
+		9BF0C2742169530800047634 /* SCItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C228216924FF00047634 /* SCItemView.swift */; };
+		9BF0C2752169530800047634 /* SCNavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C23A21694FA100047634 /* SCNavigationCoordinator.swift */; };
+		9BF0C27B216A36D700047634 /* Overture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF0C27A216A36D700047634 /* Overture.framework */; };
+		9BF0C2B7216A386500047634 /* compose@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2A5216A386400047634 /* compose@2x.png */; };
+		9BF0C2B8216A386500047634 /* compose@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2A6216A386400047634 /* compose@3x.png */; };
+		9BF0C2B9216A386500047634 /* suckerPunch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2A7216A386400047634 /* suckerPunch.jpg */; };
+		9BF0C2BA216A386500047634 /* pen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2A8216A386400047634 /* pen.jpg */; };
+		9BF0C2BB216A386500047634 /* numbersBook.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2A9216A386400047634 /* numbersBook.jpg */; };
+		9BF0C2BC216A386500047634 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AA216A386400047634 /* plus@2x.png */; };
+		9BF0C2BD216A386500047634 /* list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AB216A386400047634 /* list@2x.png */; };
+		9BF0C2BE216A386500047634 /* list@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AC216A386400047634 /* list@3x.png */; };
+		9BF0C2BF216A386500047634 /* tummyDesk.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AD216A386400047634 /* tummyDesk.jpg */; };
+		9BF0C2C0216A386500047634 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AE216A386400047634 /* plus@3x.png */; };
+		9BF0C2C1216A386500047634 /* blackPantherBook.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2AF216A386400047634 /* blackPantherBook.jpg */; };
+		9BF0C2C2216A386500047634 /* newlist@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B0216A386400047634 /* newlist@3x.png */; };
+		9BF0C2C3216A386500047634 /* ice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B1216A386400047634 /* ice.jpg */; };
+		9BF0C2C4216A386500047634 /* newlist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B2216A386400047634 /* newlist@2x.png */; };
+		9BF0C2C5216A386500047634 /* cloud@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B3216A386400047634 /* cloud@2x.png */; };
+		9BF0C2C6216A386500047634 /* labo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B4216A386400047634 /* labo.jpg */; };
+		9BF0C2C7216A386500047634 /* cloud@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B5216A386400047634 /* cloud@3x.png */; };
+		9BF0C2C8216A386500047634 /* redFamineBook.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9BF0C2B6216A386400047634 /* redFamineBook.jpg */; };
+		9BF0C2C9216A432800047634 /* Overture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF0C27A216A36D700047634 /* Overture.framework */; };
+		9BF0C2CA216A432800047634 /* Overture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF0C27A216A36D700047634 /* Overture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9BF0C2CC216A83FF00047634 /* UserDefaults_CK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2CB216A83FF00047634 /* UserDefaults_CK.swift */; };
+		9BF0C2CE217377F800047634 /* CKListItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2CD217377F800047634 /* CKListItemSource.swift */; };
+		9BF0C2D0217E0D4A00047634 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF0C2CF217E0D4A00047634 /* ImageHelper.swift */; };
+		C08FFA941C75CCFA72492AC3 /* Pods_ShelfCentered.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB77DEAFA06A911D9B87ACDA /* Pods_ShelfCentered.framework */; };
+		E1ACBBA91DFE4045DF0EF27A /* Pods_SCCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AD1D47BDE0EF28DDE7F96E /* Pods_SCCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9BB8BBE721396C1200F5D83A /* PBXContainerItemProxy */ = {
+		9BF0C25A216952DD00047634 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BB8BBC521396C0F00F5D83A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9BB8BBCC21396C0F00F5D83A;
-			remoteInfo = ShelfCentered;
-		};
-		9BB8BBF221396C1200F5D83A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BB8BBC521396C0F00F5D83A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9BB8BBCC21396C0F00F5D83A;
-			remoteInfo = ShelfCentered;
+			remoteGlobalIDString = 9BF0C246216952DD00047634;
+			remoteInfo = SCCore;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9BF0C261216952DD00047634 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9BF0C2CA216A432800047634 /* Overture.framework in Embed Frameworks */,
+				9BF0C25D216952DD00047634 /* SCCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		27AD1D47BDE0EF28DDE7F96E /* Pods_SCCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		29C1F289361D991596DFC814 /* Pods-SCCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCCore.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SCCore/Pods-SCCore.debug.xcconfig"; sourceTree = "<group>"; };
+		4A7A29D80C67358C464CADBA /* Pods-ShelfCenteredUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCenteredUITests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCenteredUITests/Pods-ShelfCenteredUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4EBBE2BC7CC440C794A46A39 /* Pods-ShelfCentered.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCentered.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCentered/Pods-ShelfCentered.release.xcconfig"; sourceTree = "<group>"; };
+		78F2B4AA2D9319F2C2C604A9 /* Pods-SCCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCCore.release.xcconfig"; path = "../Pods/Target Support Files/Pods-SCCore/Pods-SCCore.release.xcconfig"; sourceTree = "<group>"; };
+		8FEBCDC8F771FFB21E0AE0C1 /* Pods-SCCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCCoreTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SCCoreTests/Pods-SCCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9AE26498D1A14F871D9398AA /* Pods_ShelfCenteredUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShelfCenteredUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B225FE021580500009055D6 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		9B225FE121580500009055D6 /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
 		9B225FE221580500009055D6 /* SwiftLinkPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLinkPreview.swift; sourceTree = "<group>"; };
@@ -58,20 +104,68 @@
 		9B225FE421580500009055D6 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		9B225FE521580500009055D6 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		9B426A4F213AEEFD0060A1F5 /* UIPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = UIPlayground.playground; path = ../UIPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		9BA3B0A0213F53D800529479 /* SwiftPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9BB8BBCD21396C0F00F5D83A /* ShelfCentered.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShelfCentered.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BB8BBD021396C0F00F5D83A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9BB8BBD321396C0F00F5D83A /* ShelfCentered.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShelfCentered.xcdatamodel; sourceTree = "<group>"; };
 		9BB8BBDC21396C1200F5D83A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9BB8BBE121396C1200F5D83A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9BB8BBE621396C1200F5D83A /* ShelfCenteredTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShelfCenteredTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BB8BBEA21396C1200F5D83A /* ShelfCenteredTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCenteredTests.swift; sourceTree = "<group>"; };
 		9BB8BBEC21396C1200F5D83A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9BB8BBF121396C1200F5D83A /* ShelfCenteredUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShelfCenteredUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BB8BBF521396C1200F5D83A /* ShelfCenteredUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCenteredUITests.swift; sourceTree = "<group>"; };
 		9BB8BBF721396C1200F5D83A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BB8BC0321396C6300F5D83A /* ShelfCentered.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShelfCentered.entitlements; sourceTree = "<group>"; };
 		9BB8BC0521396C6600F5D83A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		9BF0C2202168FF3B00047634 /* BaseRoundedCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRoundedCardCell.swift; sourceTree = "<group>"; };
+		9BF0C2222168FF9300047634 /* BindUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindUtils.swift; sourceTree = "<group>"; };
+		9BF0C2242169005F00047634 /* SCViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCViewModels.swift; sourceTree = "<group>"; };
+		9BF0C226216924D000047634 /* SCItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCItemCell.swift; sourceTree = "<group>"; };
+		9BF0C228216924FF00047634 /* SCItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCItemView.swift; sourceTree = "<group>"; };
+		9BF0C22A2169251700047634 /* SCCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCCommentCell.swift; sourceTree = "<group>"; };
+		9BF0C22C2169253400047634 /* SCCommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCCommentsViewController.swift; sourceTree = "<group>"; };
+		9BF0C22E2169254B00047634 /* SCItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCItemViewController.swift; sourceTree = "<group>"; };
+		9BF0C2302169256600047634 /* SCEditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCEditItemView.swift; sourceTree = "<group>"; };
+		9BF0C2322169257F00047634 /* SCEditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCEditItemViewController.swift; sourceTree = "<group>"; };
+		9BF0C2342169259400047634 /* SCListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCListCell.swift; sourceTree = "<group>"; };
+		9BF0C236216925AC00047634 /* SCListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCListsViewController.swift; sourceTree = "<group>"; };
+		9BF0C238216925C700047634 /* SCListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCListViewController.swift; sourceTree = "<group>"; };
+		9BF0C23A21694FA100047634 /* SCNavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNavigationCoordinator.swift; sourceTree = "<group>"; };
+		9BF0C23C21694FCE00047634 /* SCMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCMainViewController.swift; sourceTree = "<group>"; };
+		9BF0C23E21694FF500047634 /* SCListItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCListItemSource.swift; sourceTree = "<group>"; };
+		9BF0C2402169502300047634 /* ArrayListItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayListItemSource.swift; sourceTree = "<group>"; };
+		9BF0C247216952DD00047634 /* SCCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SCCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BF0C249216952DD00047634 /* SCCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCCore.h; sourceTree = "<group>"; };
+		9BF0C24A216952DD00047634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9BF0C256216952DD00047634 /* SCCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCCoreTests.swift; sourceTree = "<group>"; };
+		9BF0C258216952DD00047634 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9BF0C27A216A36D700047634 /* Overture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Overture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BF0C2A5216A386400047634 /* compose@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compose@2x.png"; sourceTree = "<group>"; };
+		9BF0C2A6216A386400047634 /* compose@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compose@3x.png"; sourceTree = "<group>"; };
+		9BF0C2A7216A386400047634 /* suckerPunch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = suckerPunch.jpg; sourceTree = "<group>"; };
+		9BF0C2A8216A386400047634 /* pen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pen.jpg; sourceTree = "<group>"; };
+		9BF0C2A9216A386400047634 /* numbersBook.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = numbersBook.jpg; sourceTree = "<group>"; };
+		9BF0C2AA216A386400047634 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		9BF0C2AB216A386400047634 /* list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@2x.png"; sourceTree = "<group>"; };
+		9BF0C2AC216A386400047634 /* list@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list@3x.png"; sourceTree = "<group>"; };
+		9BF0C2AD216A386400047634 /* tummyDesk.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tummyDesk.jpg; sourceTree = "<group>"; };
+		9BF0C2AE216A386400047634 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@3x.png"; sourceTree = "<group>"; };
+		9BF0C2AF216A386400047634 /* blackPantherBook.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blackPantherBook.jpg; sourceTree = "<group>"; };
+		9BF0C2B0216A386400047634 /* newlist@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newlist@3x.png"; sourceTree = "<group>"; };
+		9BF0C2B1216A386400047634 /* ice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ice.jpg; sourceTree = "<group>"; };
+		9BF0C2B2216A386400047634 /* newlist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newlist@2x.png"; sourceTree = "<group>"; };
+		9BF0C2B3216A386400047634 /* cloud@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud@2x.png"; sourceTree = "<group>"; };
+		9BF0C2B4216A386400047634 /* labo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = labo.jpg; sourceTree = "<group>"; };
+		9BF0C2B5216A386400047634 /* cloud@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloud@3x.png"; sourceTree = "<group>"; };
+		9BF0C2B6216A386400047634 /* redFamineBook.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = redFamineBook.jpg; sourceTree = "<group>"; };
+		9BF0C2CB216A83FF00047634 /* UserDefaults_CK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults_CK.swift; sourceTree = "<group>"; };
+		9BF0C2CD217377F800047634 /* CKListItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKListItemSource.swift; sourceTree = "<group>"; };
+		9BF0C2CF217E0D4A00047634 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		C038EE6A57D678D954074A48 /* Pods-ShelfCenteredTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCenteredTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCenteredTests/Pods-ShelfCenteredTests.release.xcconfig"; sourceTree = "<group>"; };
+		C159F0BEF08CEFB8AA44D3F6 /* Pods-SCCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SCCoreTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-SCCoreTests/Pods-SCCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		C688EF82CDCE60C50235774D /* Pods_SCCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SCCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB77DEAFA06A911D9B87ACDA /* Pods_ShelfCentered.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShelfCentered.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCEB5FFFBFAE13E8BDECFB71 /* Pods_ShelfCenteredTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShelfCenteredTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2635D8153FA454C176C2E39 /* Pods-ShelfCenteredTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCenteredTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCenteredTests/Pods-ShelfCenteredTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E9089E1BF56578445024103B /* Pods-ShelfCenteredUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCenteredUITests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCenteredUITests/Pods-ShelfCenteredUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA7AC55118CB71BD1FED0080 /* Pods-ShelfCentered.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShelfCentered.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-ShelfCentered/Pods-ShelfCentered.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,20 +174,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BB8BC0621396C6600F5D83A /* CloudKit.framework in Frameworks */,
+				9BF0C25C216952DD00047634 /* SCCore.framework in Frameworks */,
+				9BF0C2C9216A432800047634 /* Overture.framework in Frameworks */,
+				C08FFA941C75CCFA72492AC3 /* Pods_ShelfCentered.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9BB8BBE321396C1200F5D83A /* Frameworks */ = {
+		9BF0C244216952DD00047634 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9BB8BBEE21396C1200F5D83A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				9BF0C27B216A36D700047634 /* Overture.framework in Frameworks */,
+				E1ACBBA91DFE4045DF0EF27A /* Pods_SCCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,13 +208,15 @@
 		9BB8BBC421396C0F00F5D83A = {
 			isa = PBXGroup;
 			children = (
-				9BA3B0A0213F53D800529479 /* SwiftPlayground.playground */,
 				9B426A4F213AEEFD0060A1F5 /* UIPlayground.playground */,
 				9BB8BBCF21396C0F00F5D83A /* ShelfCentered */,
 				9BB8BBE921396C1200F5D83A /* ShelfCenteredTests */,
 				9BB8BBF421396C1200F5D83A /* ShelfCenteredUITests */,
+				9BF0C248216952DD00047634 /* SCCore */,
+				9BF0C255216952DD00047634 /* SCCoreTests */,
 				9BB8BBCE21396C0F00F5D83A /* Products */,
 				9BB8BC0421396C6600F5D83A /* Frameworks */,
+				BB84BF5D2033C014618BFEF5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,8 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				9BB8BBCD21396C0F00F5D83A /* ShelfCentered.app */,
-				9BB8BBE621396C1200F5D83A /* ShelfCenteredTests.xctest */,
-				9BB8BBF121396C1200F5D83A /* ShelfCenteredUITests.xctest */,
+				9BF0C247216952DD00047634 /* SCCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,12 +232,11 @@
 		9BB8BBCF21396C0F00F5D83A /* ShelfCentered */ = {
 			isa = PBXGroup;
 			children = (
+				9BF0C21F2168FF1A00047634 /* Sources */,
 				9BB8BC0321396C6300F5D83A /* ShelfCentered.entitlements */,
 				9BB8BBD021396C0F00F5D83A /* AppDelegate.swift */,
 				9BB8BBDC21396C1200F5D83A /* Assets.xcassets */,
 				9BB8BBE121396C1200F5D83A /* Info.plist */,
-				9BB8BBD221396C0F00F5D83A /* ShelfCentered.xcdatamodeld */,
-				9B225FD5215804E1009055D6 /* SwiftLinkPreviewSources */,
 			);
 			path = ShelfCentered;
 			sourceTree = "<group>";
@@ -170,66 +262,159 @@
 		9BB8BC0421396C6600F5D83A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9BF0C27A216A36D700047634 /* Overture.framework */,
 				9BB8BC0521396C6600F5D83A /* CloudKit.framework */,
+				27AD1D47BDE0EF28DDE7F96E /* Pods_SCCore.framework */,
+				C688EF82CDCE60C50235774D /* Pods_SCCoreTests.framework */,
+				DB77DEAFA06A911D9B87ACDA /* Pods_ShelfCentered.framework */,
+				DCEB5FFFBFAE13E8BDECFB71 /* Pods_ShelfCenteredTests.framework */,
+				9AE26498D1A14F871D9398AA /* Pods_ShelfCenteredUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9BF0C21F2168FF1A00047634 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9BF0C248216952DD00047634 /* SCCore */ = {
+			isa = PBXGroup;
+			children = (
+				9BF0C2A4216A386400047634 /* Resources */,
+				9B225FD5215804E1009055D6 /* SwiftLinkPreviewSources */,
+				9BF0C249216952DD00047634 /* SCCore.h */,
+				9BF0C24A216952DD00047634 /* Info.plist */,
+				9BF0C2202168FF3B00047634 /* BaseRoundedCardCell.swift */,
+				9BF0C2222168FF9300047634 /* BindUtils.swift */,
+				9BF0C2242169005F00047634 /* SCViewModels.swift */,
+				9BF0C226216924D000047634 /* SCItemCell.swift */,
+				9BF0C228216924FF00047634 /* SCItemView.swift */,
+				9BF0C22A2169251700047634 /* SCCommentCell.swift */,
+				9BF0C22C2169253400047634 /* SCCommentsViewController.swift */,
+				9BF0C22E2169254B00047634 /* SCItemViewController.swift */,
+				9BF0C2302169256600047634 /* SCEditItemView.swift */,
+				9BF0C2322169257F00047634 /* SCEditItemViewController.swift */,
+				9BF0C2342169259400047634 /* SCListCell.swift */,
+				9BF0C236216925AC00047634 /* SCListsViewController.swift */,
+				9BF0C238216925C700047634 /* SCListViewController.swift */,
+				9BF0C23A21694FA100047634 /* SCNavigationCoordinator.swift */,
+				9BF0C23C21694FCE00047634 /* SCMainViewController.swift */,
+				9BF0C23E21694FF500047634 /* SCListItemSource.swift */,
+				9BF0C2402169502300047634 /* ArrayListItemSource.swift */,
+				9BF0C2CB216A83FF00047634 /* UserDefaults_CK.swift */,
+				9BF0C2CD217377F800047634 /* CKListItemSource.swift */,
+				9BF0C2CF217E0D4A00047634 /* ImageHelper.swift */,
+			);
+			path = SCCore;
+			sourceTree = "<group>";
+		};
+		9BF0C255216952DD00047634 /* SCCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				9BF0C256216952DD00047634 /* SCCoreTests.swift */,
+				9BF0C258216952DD00047634 /* Info.plist */,
+			);
+			path = SCCoreTests;
+			sourceTree = "<group>";
+		};
+		9BF0C2A4216A386400047634 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9BF0C2A5216A386400047634 /* compose@2x.png */,
+				9BF0C2A6216A386400047634 /* compose@3x.png */,
+				9BF0C2A7216A386400047634 /* suckerPunch.jpg */,
+				9BF0C2A8216A386400047634 /* pen.jpg */,
+				9BF0C2A9216A386400047634 /* numbersBook.jpg */,
+				9BF0C2AA216A386400047634 /* plus@2x.png */,
+				9BF0C2AB216A386400047634 /* list@2x.png */,
+				9BF0C2AC216A386400047634 /* list@3x.png */,
+				9BF0C2AD216A386400047634 /* tummyDesk.jpg */,
+				9BF0C2AE216A386400047634 /* plus@3x.png */,
+				9BF0C2AF216A386400047634 /* blackPantherBook.jpg */,
+				9BF0C2B0216A386400047634 /* newlist@3x.png */,
+				9BF0C2B1216A386400047634 /* ice.jpg */,
+				9BF0C2B2216A386400047634 /* newlist@2x.png */,
+				9BF0C2B3216A386400047634 /* cloud@2x.png */,
+				9BF0C2B4216A386400047634 /* labo.jpg */,
+				9BF0C2B5216A386400047634 /* cloud@3x.png */,
+				9BF0C2B6216A386400047634 /* redFamineBook.jpg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BB84BF5D2033C014618BFEF5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				29C1F289361D991596DFC814 /* Pods-SCCore.debug.xcconfig */,
+				78F2B4AA2D9319F2C2C604A9 /* Pods-SCCore.release.xcconfig */,
+				8FEBCDC8F771FFB21E0AE0C1 /* Pods-SCCoreTests.debug.xcconfig */,
+				C159F0BEF08CEFB8AA44D3F6 /* Pods-SCCoreTests.release.xcconfig */,
+				EA7AC55118CB71BD1FED0080 /* Pods-ShelfCentered.debug.xcconfig */,
+				4EBBE2BC7CC440C794A46A39 /* Pods-ShelfCentered.release.xcconfig */,
+				E2635D8153FA454C176C2E39 /* Pods-ShelfCenteredTests.debug.xcconfig */,
+				C038EE6A57D678D954074A48 /* Pods-ShelfCenteredTests.release.xcconfig */,
+				E9089E1BF56578445024103B /* Pods-ShelfCenteredUITests.debug.xcconfig */,
+				4A7A29D80C67358C464CADBA /* Pods-ShelfCenteredUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9BF0C242216952DD00047634 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BF0C259216952DD00047634 /* SCCore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		9BB8BBCC21396C0F00F5D83A /* ShelfCentered */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9BB8BBFA21396C1200F5D83A /* Build configuration list for PBXNativeTarget "ShelfCentered" */;
 			buildPhases = (
+				E752205165265A64090F9CAE /* [CP] Check Pods Manifest.lock */,
 				9BB8BBC921396C0F00F5D83A /* Sources */,
 				9BB8BBCA21396C0F00F5D83A /* Frameworks */,
 				9BB8BBCB21396C0F00F5D83A /* Resources */,
+				9BF0C261216952DD00047634 /* Embed Frameworks */,
+				3365BF151AEB4493019291EE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9BF0C25B216952DD00047634 /* PBXTargetDependency */,
 			);
 			name = ShelfCentered;
 			productName = ShelfCentered;
 			productReference = 9BB8BBCD21396C0F00F5D83A /* ShelfCentered.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9BB8BBE521396C1200F5D83A /* ShelfCenteredTests */ = {
+		9BF0C246216952DD00047634 /* SCCore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9BB8BBFD21396C1200F5D83A /* Build configuration list for PBXNativeTarget "ShelfCenteredTests" */;
+			buildConfigurationList = 9BF0C25E216952DD00047634 /* Build configuration list for PBXNativeTarget "SCCore" */;
 			buildPhases = (
-				9BB8BBE221396C1200F5D83A /* Sources */,
-				9BB8BBE321396C1200F5D83A /* Frameworks */,
-				9BB8BBE421396C1200F5D83A /* Resources */,
+				144AE0BEBB5A07927118548E /* [CP] Check Pods Manifest.lock */,
+				9BF0C242216952DD00047634 /* Headers */,
+				9BF0C243216952DD00047634 /* Sources */,
+				9BF0C244216952DD00047634 /* Frameworks */,
+				9BF0C245216952DD00047634 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9BB8BBE821396C1200F5D83A /* PBXTargetDependency */,
 			);
-			name = ShelfCenteredTests;
-			productName = ShelfCenteredTests;
-			productReference = 9BB8BBE621396C1200F5D83A /* ShelfCenteredTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		9BB8BBF021396C1200F5D83A /* ShelfCenteredUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9BB8BC0021396C1200F5D83A /* Build configuration list for PBXNativeTarget "ShelfCenteredUITests" */;
-			buildPhases = (
-				9BB8BBED21396C1200F5D83A /* Sources */,
-				9BB8BBEE21396C1200F5D83A /* Frameworks */,
-				9BB8BBEF21396C1200F5D83A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9BB8BBF321396C1200F5D83A /* PBXTargetDependency */,
-			);
-			name = ShelfCenteredUITests;
-			productName = ShelfCenteredUITests;
-			productReference = 9BB8BBF121396C1200F5D83A /* ShelfCenteredUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			name = SCCore;
+			productName = SCCore;
+			productReference = 9BF0C247216952DD00047634 /* SCCore.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -237,13 +422,17 @@
 		9BB8BBC521396C0F00F5D83A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Greg Langmead";
 				TargetAttributes = {
 					9BB8BBCC21396C0F00F5D83A = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -252,13 +441,8 @@
 							};
 						};
 					};
-					9BB8BBE521396C1200F5D83A = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = 9BB8BBCC21396C0F00F5D83A;
-					};
-					9BB8BBF021396C1200F5D83A = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = 9BB8BBCC21396C0F00F5D83A;
+					9BF0C246216952DD00047634 = {
+						CreatedOnToolsVersion = 10.0;
 					};
 				};
 			};
@@ -276,8 +460,7 @@
 			projectRoot = "";
 			targets = (
 				9BB8BBCC21396C0F00F5D83A /* ShelfCentered */,
-				9BB8BBE521396C1200F5D83A /* ShelfCenteredTests */,
-				9BB8BBF021396C1200F5D83A /* ShelfCenteredUITests */,
+				9BF0C246216952DD00047634 /* SCCore */,
 			);
 		};
 /* End PBXProject section */
@@ -291,21 +474,101 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9BB8BBE421396C1200F5D83A /* Resources */ = {
+		9BF0C245216952DD00047634 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9BB8BBEF21396C1200F5D83A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				9BF0C2C3216A386500047634 /* ice.jpg in Resources */,
+				9BF0C2BD216A386500047634 /* list@2x.png in Resources */,
+				9BF0C2B8216A386500047634 /* compose@3x.png in Resources */,
+				9BF0C2C4216A386500047634 /* newlist@2x.png in Resources */,
+				9BF0C2C2216A386500047634 /* newlist@3x.png in Resources */,
+				9BF0C2C6216A386500047634 /* labo.jpg in Resources */,
+				9BF0C2BF216A386500047634 /* tummyDesk.jpg in Resources */,
+				9BF0C2BB216A386500047634 /* numbersBook.jpg in Resources */,
+				9BF0C2BC216A386500047634 /* plus@2x.png in Resources */,
+				9BF0C2BA216A386500047634 /* pen.jpg in Resources */,
+				9BF0C2BE216A386500047634 /* list@3x.png in Resources */,
+				9BF0C2B9216A386500047634 /* suckerPunch.jpg in Resources */,
+				9BF0C2B7216A386500047634 /* compose@2x.png in Resources */,
+				9BF0C2C0216A386500047634 /* plus@3x.png in Resources */,
+				9BF0C2C1216A386500047634 /* blackPantherBook.jpg in Resources */,
+				9BF0C2C5216A386500047634 /* cloud@2x.png in Resources */,
+				9BF0C2C8216A386500047634 /* redFamineBook.jpg in Resources */,
+				9BF0C2C7216A386500047634 /* cloud@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		144AE0BEBB5A07927118548E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SCCore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3365BF151AEB4493019291EE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/../Pods/Target Support Files/Pods-ShelfCentered/Pods-ShelfCentered-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxOptional/RxOptional.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRealm/RxRealm.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxOptional.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRealm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-ShelfCentered/Pods-ShelfCentered-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E752205165265A64090F9CAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ShelfCentered-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9BB8BBC921396C0F00F5D83A /* Sources */ = {
@@ -315,7 +578,6 @@
 				9B225FEC21580500009055D6 /* SwiftLinkPreview.swift in Sources */,
 				9B225FF221580500009055D6 /* StringExtension.swift in Sources */,
 				9B225FF521580500009055D6 /* Cache.swift in Sources */,
-				9BB8BBD421396C0F00F5D83A /* ShelfCentered.xcdatamodeld in Sources */,
 				9B225FE921580500009055D6 /* PreviewError.swift in Sources */,
 				9BB8BBD121396C0F00F5D83A /* AppDelegate.swift in Sources */,
 				9B225FE621580500009055D6 /* Regex.swift in Sources */,
@@ -323,46 +585,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9BB8BBE221396C1200F5D83A /* Sources */ = {
+		9BF0C243216952DD00047634 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B225FF621580500009055D6 /* Cache.swift in Sources */,
-				9BB8BBEB21396C1200F5D83A /* ShelfCenteredTests.swift in Sources */,
-				9B225FE721580500009055D6 /* Regex.swift in Sources */,
-				9B225FF321580500009055D6 /* StringExtension.swift in Sources */,
-				9B225FED21580500009055D6 /* SwiftLinkPreview.swift in Sources */,
-				9B225FF021580500009055D6 /* NSURLSessionExtension.swift in Sources */,
-				9B225FEA21580500009055D6 /* PreviewError.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9BB8BBED21396C1200F5D83A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9B225FF721580500009055D6 /* Cache.swift in Sources */,
-				9BB8BBF621396C1200F5D83A /* ShelfCenteredUITests.swift in Sources */,
-				9B225FE821580500009055D6 /* Regex.swift in Sources */,
-				9B225FF421580500009055D6 /* StringExtension.swift in Sources */,
-				9B225FEE21580500009055D6 /* SwiftLinkPreview.swift in Sources */,
-				9B225FF121580500009055D6 /* NSURLSessionExtension.swift in Sources */,
-				9B225FEB21580500009055D6 /* PreviewError.swift in Sources */,
+				9BF0C2CC216A83FF00047634 /* UserDefaults_CK.swift in Sources */,
+				9BF0C26A2169530800047634 /* SCItemCell.swift in Sources */,
+				9BF0C26B2169530800047634 /* SCListViewController.swift in Sources */,
+				9BF0C2662169530800047634 /* SCViewModels.swift in Sources */,
+				9BF0C2702169530800047634 /* ArrayListItemSource.swift in Sources */,
+				9BF0C26C2169530800047634 /* SCListItemSource.swift in Sources */,
+				9BF0C26D2169530800047634 /* SCListsViewController.swift in Sources */,
+				9BF0C2722169530800047634 /* BaseRoundedCardCell.swift in Sources */,
+				9BF0C2712169530800047634 /* BindUtils.swift in Sources */,
+				9BF0C2732169530800047634 /* SCMainViewController.swift in Sources */,
+				9BF0C26E2169530800047634 /* SCItemViewController.swift in Sources */,
+				9BF0C2D0217E0D4A00047634 /* ImageHelper.swift in Sources */,
+				9BF0C2752169530800047634 /* SCNavigationCoordinator.swift in Sources */,
+				9BF0C26F2169530800047634 /* SCListCell.swift in Sources */,
+				9BF0C2742169530800047634 /* SCItemView.swift in Sources */,
+				9BF0C2692169530800047634 /* SCEditItemViewController.swift in Sources */,
+				9BF0C2CE217377F800047634 /* CKListItemSource.swift in Sources */,
+				9BF0C2652169530800047634 /* SCCommentsViewController.swift in Sources */,
+				9BF0C2672169530800047634 /* SCEditItemView.swift in Sources */,
+				9BF0C2682169530800047634 /* SCCommentCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9BB8BBE821396C1200F5D83A /* PBXTargetDependency */ = {
+		9BF0C25B216952DD00047634 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9BB8BBCC21396C0F00F5D83A /* ShelfCentered */;
-			targetProxy = 9BB8BBE721396C1200F5D83A /* PBXContainerItemProxy */;
-		};
-		9BB8BBF321396C1200F5D83A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9BB8BBCC21396C0F00F5D83A /* ShelfCentered */;
-			targetProxy = 9BB8BBF221396C1200F5D83A /* PBXContainerItemProxy */;
+			target = 9BF0C246216952DD00047634 /* SCCore */;
+			targetProxy = 9BF0C25A216952DD00047634 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -418,7 +674,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -472,7 +728,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -483,7 +739,9 @@
 		};
 		9BB8BBFB21396C1200F5D83A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA7AC55118CB71BD1FED0080 /* Pods-ShelfCentered.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ShelfCentered/ShelfCentered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -495,14 +753,16 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		9BB8BBFC21396C1200F5D83A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EBBE2BC7CC440C794A46A39 /* Pods-ShelfCentered.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ShelfCentered/ShelfCentered.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -514,90 +774,71 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		9BB8BBFE21396C1200F5D83A /* Debug */ = {
+		9BF0C25F216952DD00047634 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29C1F289361D991596DFC814 /* Pods-SCCore.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6THQ8LR57Z;
-				INFOPLIST_FILE = ShelfCenteredTests/Info.plist;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Y5NG75847;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SCCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.SCCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShelfCentered.app/ShelfCentered";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		9BB8BBFF21396C1200F5D83A /* Release */ = {
+		9BF0C260216952DD00047634 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78F2B4AA2D9319F2C2C604A9 /* Pods-SCCore.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6THQ8LR57Z;
-				INFOPLIST_FILE = ShelfCenteredTests/Info.plist;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5Y5NG75847;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SCCore/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.SCCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShelfCentered.app/ShelfCentered";
-			};
-			name = Release;
-		};
-		9BB8BC0121396C1200F5D83A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6THQ8LR57Z;
-				INFOPLIST_FILE = ShelfCenteredUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ShelfCentered;
-			};
-			name = Debug;
-		};
-		9BB8BC0221396C1200F5D83A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6THQ8LR57Z;
-				INFOPLIST_FILE = ShelfCenteredUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.langmead.ShelfCenteredUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ShelfCentered;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -622,38 +863,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9BB8BBFD21396C1200F5D83A /* Build configuration list for PBXNativeTarget "ShelfCenteredTests" */ = {
+		9BF0C25E216952DD00047634 /* Build configuration list for PBXNativeTarget "SCCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9BB8BBFE21396C1200F5D83A /* Debug */,
-				9BB8BBFF21396C1200F5D83A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9BB8BC0021396C1200F5D83A /* Build configuration list for PBXNativeTarget "ShelfCenteredUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9BB8BC0121396C1200F5D83A /* Debug */,
-				9BB8BC0221396C1200F5D83A /* Release */,
+				9BF0C25F216952DD00047634 /* Debug */,
+				9BF0C260216952DD00047634 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		9BB8BBD221396C0F00F5D83A /* ShelfCentered.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				9BB8BBD321396C0F00F5D83A /* ShelfCentered.xcdatamodel */,
-			);
-			currentVersion = 9BB8BBD321396C0F00F5D83A /* ShelfCentered.xcdatamodel */;
-			path = ShelfCentered.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 9BB8BBC521396C0F00F5D83A /* Project object */;
 }

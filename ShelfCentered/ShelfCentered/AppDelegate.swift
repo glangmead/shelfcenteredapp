@@ -7,25 +7,227 @@
 //
 
 import UIKit
-import CoreData
+import SCCore
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
-    var window: UIWindow?
+    let window = UIWindow()
 
+    let container = CKContainer.default()
+    lazy var privateDB = container.privateCloudDatabase
+    lazy var sharedDB = container.sharedCloudDatabase
+    var zoneID = CKRecordZone.ID(zoneName: "ShelfCentered", ownerName: CKCurrentUserDefaultName)
+    var createdCustomZone = false
+    var subscribedToPrivateChanges = false
+    var subscribedToSharedChanges = false
+    var inFlightDatabaseChangeToken : CKServerChangeToken?
+    var inFlightZoneChangeToken : CKServerChangeToken?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
-        splitViewController.delegate = self
-
-        let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
-        let controller = masterNavigationController.topViewController as! MasterViewController
-        controller.managedObjectContext = self.persistentContainer.viewContext
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        setupCloudKitIfNecessary(application)
+        self.window.rootViewController = SCMainViewController(myDataSource: CKListItemSource(db: privateDB, zoneID: self.zoneID, isMe: true), sharedDataSource: CKListItemSource(db: sharedDB, zoneID: self.zoneID, isMe: false))
+        self.window.makeKeyAndVisible()
         return true
+    }
+    
+    func setupCloudKitIfNecessary(_ application: UIApplication) {
+        // Use a consistent zone ID across the user's devices
+        // CKCurrentUserDefaultName specifies the current user's ID when creating a zone ID
+        
+        createdCustomZone = UserDefaults.standard.bool(forKey: "createdCustomZone")
+        subscribedToPrivateChanges = UserDefaults.standard.bool(forKey: "subscribedToPrivateChanges")
+        subscribedToSharedChanges = UserDefaults.standard.bool(forKey: "subscribedToSharedChanges")
+        
+        let privateSubscriptionId = "private-changes"
+        let sharedSubscriptionId = "shared-changes"
+        
+        let createZoneGroup = DispatchGroup()
+        
+        if !self.createdCustomZone {
+            createZoneGroup.enter()
+            
+            let customZone = CKRecordZone(zoneID: zoneID)
+            
+            let createZoneOperation = CKModifyRecordZonesOperation(recordZonesToSave: [customZone], recordZoneIDsToDelete: [] )
+            
+            createZoneOperation.modifyRecordZonesCompletionBlock = { (saved, deleted, error) in
+                if (error == nil) { self.createdCustomZone = true }
+                // else custom error handling
+                createZoneGroup.leave()
+            }
+            createZoneOperation.qualityOfService = .userInitiated
+            
+            privateDB.add(createZoneOperation)
+        }
+        
+        if !subscribedToPrivateChanges {
+            let createSubscriptionOperation = self.createDatabaseSubscriptionOperation(subscriptionId: privateSubscriptionId)
+            createSubscriptionOperation.modifySubscriptionsCompletionBlock = { (subscriptions, deletedIds, error) in
+                if error == nil { self.subscribedToPrivateChanges = true }
+                // else custom error handling
+            }
+            self.privateDB.add(createSubscriptionOperation)
+        }
+        
+        if !subscribedToSharedChanges {
+            let createSubscriptionOperation = self.createDatabaseSubscriptionOperation(subscriptionId: sharedSubscriptionId)
+            createSubscriptionOperation.modifySubscriptionsCompletionBlock = { (subscriptions, deletedIds, error) in
+                if error == nil { self.subscribedToSharedChanges = true }
+                // else custom error handling
+            }
+            self.sharedDB.add(createSubscriptionOperation)
+        }
+        
+        // Fetch any changes from the server that happened while the app wasn't running
+        createZoneGroup.notify(queue: DispatchQueue.global()) {
+            if self.createdCustomZone {
+                self.fetchChanges(in: .private) {}
+                self.fetchChanges(in: .shared) {}
+            }
+        }
+        
+        application.registerForRemoteNotifications()
+    }
+    
+    func createDatabaseSubscriptionOperation(subscriptionId: String) -> CKModifySubscriptionsOperation {
+        let subscription = CKDatabaseSubscription.init(subscriptionID: subscriptionId)
+        let notificationInfo = CKSubscription.NotificationInfo()
+        // send a silent notification
+        notificationInfo.shouldSendContentAvailable = true
+        subscription.notificationInfo = notificationInfo
+        let operation = CKModifySubscriptionsOperation(subscriptionsToSave: [subscription], subscriptionIDsToDelete: [])
+        operation.qualityOfService = .utility
+        return operation
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Received notification!")
+        let dict = userInfo as! [String: NSObject]
+        guard let notification:CKDatabaseNotification = CKNotification(fromRemoteNotificationDictionary:dict) as? CKDatabaseNotification else { return }
+        self.fetchChanges(in: notification.databaseScope) {
+            completionHandler(.newData)
+        }
+    }
+    
+    func fetchChanges(in databaseScope: CKDatabase.Scope, completion: @escaping () -> Void) {
+        switch databaseScope {
+        case .private:
+            fetchDatabaseChanges(database: self.privateDB, databaseTokenKey: "private", completion: completion)
+        case .shared:
+            fetchDatabaseChanges(database: self.sharedDB, databaseTokenKey: "shared", completion: completion)
+        case .public:
+            fatalError()
+        }
+    }
+    
+    func fetchDatabaseChanges(database: CKDatabase, databaseTokenKey: String, completion: @escaping () -> Void) {
+        var changedZoneIDs: [CKRecordZone.ID] = []
+        
+        let changeToken = UserDefaults.standard.serverDatabaseChangeToken
+        let operation = CKFetchDatabaseChangesOperation(previousServerChangeToken: changeToken)
+        operation.fetchAllChanges = true
+        operation.recordZoneWithIDChangedBlock = { (zoneID) in
+            changedZoneIDs.append(zoneID)
+        }
+        
+        operation.recordZoneWithIDWasDeletedBlock = { (zoneID) in
+            // Write this zone deletion to memory
+        }
+        
+        operation.changeTokenUpdatedBlock = { (token) in
+            // Flush zone deletions for this database to disk
+            self.inFlightDatabaseChangeToken = token
+        }
+        
+        operation.fetchDatabaseChangesCompletionBlock = { (token, moreComing, error) in
+            if let error = error {
+                print("Error during fetch shared database changes operation", error)
+                completion()
+                return
+            }
+            // Flush zone deletions for this database to disk
+            self.inFlightDatabaseChangeToken = token
+            
+            self.fetchZoneChanges(database: database, databaseTokenKey: databaseTokenKey, zoneIDs: changedZoneIDs) {
+                UserDefaults.standard.serverDatabaseChangeToken = self.inFlightDatabaseChangeToken
+                self.inFlightDatabaseChangeToken = nil
+                completion()
+            }
+        }
+        operation.qualityOfService = .userInitiated
+        
+        database.add(operation)
+    }
+    
+    func fetchZoneChanges(database: CKDatabase, databaseTokenKey: String, zoneIDs: [CKRecordZone.ID], completion: @escaping () -> Void) {
+        if (!zoneIDs.isEmpty) {
+            // Look up the previous change token for each zone
+            var optionsByRecordZoneID = [CKRecordZone.ID: CKFetchRecordZoneChangesOperation.ZoneOptions]()
+            for zoneID in zoneIDs {
+                let options = CKFetchRecordZoneChangesOperation.ZoneOptions()
+                options.previousServerChangeToken = UserDefaults.standard.serverZoneChangeToken
+                optionsByRecordZoneID[zoneID] = options
+            }
+            let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: zoneIDs, optionsByRecordZoneID: optionsByRecordZoneID)
+            operation.fetchAllChanges = true
+            operation.recordChangedBlock = { (record) in
+                print("Record changed:", record)
+                // Write this record change to memory
+            }
+            
+            operation.recordWithIDWasDeletedBlock = { (recordId, recordType) in
+                print("Record deleted:", recordId)
+                // Write this record deletion to memory
+            }
+            
+            operation.recordZoneChangeTokensUpdatedBlock = { (zoneId, token, data) in
+                // Flush record changes and deletions for this zone to disk
+                UserDefaults.standard.serverZoneChangeToken = token
+            }
+            
+            operation.recordZoneFetchCompletionBlock = { (zoneId, changeToken, _, _, error) in
+                if let error = error {
+                    print("Error fetching zone changes for \(databaseTokenKey) database:", error)
+                    return
+                }
+                // Flush record changes and deletions for this zone to disk
+                UserDefaults.standard.serverZoneChangeToken = changeToken
+            }
+            
+            operation.fetchRecordZoneChangesCompletionBlock = { (error) in
+                if let error = error {
+                    print("Error fetching zone changes for \(databaseTokenKey) database:", error)
+                }
+                completion()
+            }
+            
+            database.add(operation)
+        }
+    }
+    
+    func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
+        
+        let acceptSharing: CKAcceptSharesOperation = CKAcceptSharesOperation(shareMetadatas: [cloudKitShareMetadata])
+        
+        acceptSharing.qualityOfService = .userInteractive
+        acceptSharing.perShareCompletionBlock = {meta, share, error in
+            print("successfully shared")
+        }
+        acceptSharing.acceptSharesCompletionBlock = {
+            error in
+            guard (error == nil) else{
+                print("Error \(error?.localizedDescription ?? "")")
+                return
+            }
+            
+//            let viewController: AddItemViewController =
+//                self.window?.rootViewController as! AddItemViewController
+//            viewController.fetchShare(cloudKitShareMetadata)
+            
+        }
+        CKContainer(identifier: cloudKitShareMetadata.containerIdentifier).add(acceptSharing)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -49,63 +251,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
-    }
-
-    // MARK: - Split view
-
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.detailItem == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
-        }
-        return false
-    }
-    // MARK: - Core Data stack
-
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-        */
-        let container = NSPersistentContainer(name: "ShelfCentered")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
     }
 
 }
